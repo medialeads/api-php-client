@@ -3,54 +3,54 @@ namespace EuropeanSourcing\Api\Model;
 
 use EuropeanSourcing\Api\Model\Common\ArrayAccessTrait;
 
-class Image implements \ArrayAccess
+class Attribute implements \ArrayAccess
 {
     use ArrayAccessTrait;
 
     /**
      * Id
+     *
      * @var integer
      */
     protected $id;
 
     /**
-     * Vrai nom du fichier
+     * Name
      *
      * @var string
      */
     protected $name;
 
     /**
-     * Position de l'image
+     * Nombre de produits
      *
      * @var integer
      */
-    protected $position;
+    protected $count;
+
+    /**
+     * Le parent
+     *
+     * @var AttributeGroup
+     */
+    protected $attributeGroup;
 
     /**
      * Constructor
      *
-     * @param array $image
+     * @param array $attributeGroup
      */
     public function __construct()
     {
 
     }
 
-    /**
-     *
-     * @param integer $id
-     * @return Image
-     */
     public function setId($id)
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return integer
-     */
     public function getId()
     {
         return $this->id;
@@ -61,20 +61,36 @@ class Image implements \ArrayAccess
         return $this->name;
     }
 
+    public function getFullName()
+    {
+        return $this->name;
+    }
+
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
 
-    public function getPosition()
+    public function getCount()
     {
-        return $this->position;
+        return $this->count;
     }
 
-    public function setPosition($position)
+    public function setCount($count)
     {
-        $this->position = $position;
+        $this->count = $count;
+        return $this;
+    }
+
+    public function getAttributeGroup()
+    {
+        return $this->attributeGroup;
+    }
+
+    public function setAttributeGroup(AttributeGroup $attributeGroup)
+    {
+        $this->attributeGroup = $attributeGroup;
         return $this;
     }
 }

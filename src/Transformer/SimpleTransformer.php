@@ -1,8 +1,8 @@
 <?php
-namespace EuropeanSourcing\Api\ElasticSearch;
+namespace EuropeanSourcing\Api\Transformer;
 
 
-class Transformer
+class SimpleTransformer implements TransformerInterface
 {
     /**
      * Met en forme la recherche principale

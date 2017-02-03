@@ -1,13 +1,17 @@
 <?php
 namespace EuropeanSourcing\Api\Model;
 
+use EuropeanSourcing\Api\Model\Common\ArrayAccessTrait;
+
 /**
  * Price
  *
  * @author wamania
  */
-class Price
+class Price implements \ArrayAccess
 {
+    use ArrayAccessTrait;
+
     /**
      * @var integer
      */

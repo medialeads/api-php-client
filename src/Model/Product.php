@@ -28,6 +28,13 @@ class Product implements \ArrayAccess
     protected $brand;
 
     /**
+     * Categories of the product
+     *
+     * @var array
+     */
+    protected $categories;
+
+    /**
      * Image par defaut
      * @var Image
      */
@@ -40,9 +47,10 @@ class Product implements \ArrayAccess
     protected $images;
 
     /**
+     * Id of the best variant
      * @var integer
      */
-    protected $bestVariant;
+    protected $bestVariantId;
 
     /**
      * @var array of Variant
@@ -58,6 +66,7 @@ class Product implements \ArrayAccess
     public function __construct()
     {
         $this->variants = [];
+        $this->categories = [];
     }
 
     /**
@@ -232,17 +241,17 @@ class Product implements \ArrayAccess
      */
     public function getBestVariant()
     {
-        return $this->bestVariant;
-    }
+        if (empty($this->bestVariantId)) {
+            return $this->variants[0];
+        }
 
-    /**
-     * @param Variant $bestVariant
-     * @return Product
-     */
-    public function setBestVariant(Variant $bestVariant)
-    {
-        $this->bestVariant = $bestVariant;
-        return $this;
+        foreach ($this->variants as $variant) {
+            if ($variant->getId() === $this->bestVariantId) {
+                return $variant;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -275,4 +284,49 @@ class Product implements \ArrayAccess
         $this->variants[] = $variant;
         return $this;
     }
+
+    /**
+     * Get Best Variant Id
+     *
+     * @return the integer
+     */
+    public function getBestVariantId()
+    {
+        return $this->bestVariantId;
+    }
+
+    /**
+     * Set Best Variant Id
+     *
+     * @param integer $bestVariantId
+     */
+    public function setBestVariantId($bestVariantId)
+    {
+        $this->bestVariantId = $bestVariantId;
+        return $this;
+    }
+
+    /**
+     * Get Categories
+     *
+     * @return array
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Set Categories
+     *
+     * @param array $categories
+     * @return Product
+     */
+    public function setCategories(array $categories)
+    {
+        $this->categories = $categories;
+        return $this;
+    }
+
+
 }

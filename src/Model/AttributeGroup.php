@@ -1,8 +1,12 @@
 <?php
-namespace EuropeanSourcing\Api\Model\Attribute;
+namespace EuropeanSourcing\Api\Model;
 
-class Attribute implements AttributeInterface
+use EuropeanSourcing\Api\Model\Common\ArrayAccessTrait;
+
+class AttributeGroup implements \ArrayAccess
 {
+    use ArrayAccessTrait;
+
     /**
      * Id
      *
@@ -18,18 +22,11 @@ class Attribute implements AttributeInterface
     protected $name;
 
     /**
-     * Nombre de produits
+     * Attributes
      *
-     * @var integer
+     * @var array
      */
-    protected $count;
-
-    /**
-     * Le parent
-     *
-     * @var AttributeGroup
-     */
-    protected $group;
+    protected $children;
 
     /**
      * Constructor
@@ -38,7 +35,7 @@ class Attribute implements AttributeInterface
      */
     public function __construct()
     {
-
+        $this->children = array();
     }
 
     public function setId($id)
@@ -57,39 +54,30 @@ class Attribute implements AttributeInterface
         return $this->name;
     }
 
-    public function getFullName()
-    {
-        return $this->name;
-    }
-
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
 
-    public function getCount()
+    public function getChildren()
     {
-        return $this->count;
+        return $this->children;
     }
 
-    public function setCount($count)
+    public function setChildren(array $children)
     {
-        $this->count = $count;
+        $this->children = $children;
+        foreach ($this->cildren as $child) {
+            $child->setGroup($this);
+        }
         return $this;
     }
 
-    public function getGroup()
+    public function addChildren(Attribute $attribute)
     {
-        return $this->group;
-    }
-
-    public function setGroup(AttributeGroup $group)
-    {
-        $this->group = $group;
+        $attribute->setGroup($this);
+        $this->children[] = $attribute;
         return $this;
     }
-
-
-
 }

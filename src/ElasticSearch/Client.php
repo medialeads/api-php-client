@@ -3,6 +3,7 @@ namespace EuropeanSourcing\Api\ElasticSearch;
 
 use EuropeanSourcing\Api\ElasticSearch\SearchRequest;
 use EuropeanSourcing\Api\ApiCaller\ApiCallerInterface;
+use EuropeanSourcing\Api\Transformer\TransformerInterface;
 
 class Client
 {
@@ -29,7 +30,7 @@ class Client
      * @param Transformer $transformer
      * @param string $elasticUrl
      */
-    public function __construct(ApiCallerInterface $apiCaller, Transformer $transformer, $elasticUrl)
+    public function __construct(ApiCallerInterface $apiCaller, TransformerInterface $transformer, $elasticUrl)
     {
         $this->elasticUrl = $elasticUrl;
         $this->apiCaller = $apiCaller;
@@ -51,6 +52,7 @@ class Client
                 'perpage' => $limit
             )
         ));
+
         return $this->transformer->search($results);
     }
 

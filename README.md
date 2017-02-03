@@ -1,46 +1,23 @@
-# php-stemmer
+# api-php-client
 
-PHP5 native implementation of Snowball stemmer
-http://snowball.tartarus.org/
-
-Accept only UTF-8
+Php api client to search in the Europeansourcing products database
 
 * [Languages](#languages)
 * [Installation](#installation)
 * [Usage](#usage)
 
-Languages
-------------
-Available : 
-- English
-- French
-- German
-- Italian
-- Spanish
-- Portuguese
-- Romanian
-- Dutch
-- Swedish
-- Norwegian
-- Danish
-
-Next :
-- Russian
-
-Soon : 
- - Finnish 
 
 Installation
 ------------
 
-Require [`wamania/php-stemmer`](https://packagist.org/packages/wamania/php-stemmer)
+Require [`medialeads/api-php-client`](https://packagist.org/packages/medialeads/api-php-client)
 into your `composer.json` file:
 
 
 ``` json
 {
     "require": {
-        "wamania/php-stemmer": "dev-master"
+        "medialeads/api-php-client": "dev-master"
     }
 }
 ```
@@ -51,8 +28,40 @@ Usage
 In your code:
 
 ``` php
-use Wamania\Snowball\French;
+use EuropeanSourcing\Api\ElasticSearch\Client;
+use EuropeanSourcing\Api\ElasticSearch\JsonTransformer;
+use EuropeanSourcing\Api\ElasticSearch\SearchRequest;
+use EuropeanSourcing\Api\ApiCaller\CurlCaller;
 
-$stemmer = new French();
-$stem = $stemmer->stem('anticonstitutionnellement');
+require '../vendor/autoload.php';
+
+// Api url
+$url = 'http://search4.europeansourcing.com/api';
+$token = 'xxxxxxxxxxxxxxxx';
+
+// api caller
+$apiCaller = new CurlCaller($token);
+
+// data transformer
+$transformer = new JsonTransformer();
+
+// api client
+$client = new Client($apiCaller, $transformer, $url);
+
+// search request object
+$searchRequest = new SearchRequest();
+$searchRequest->setQuery('stylo');
+
+// Do a search
+$response = $client->search($searchRequest, 1, 30);
+dump($response);
+
+$response = $client->categories($searchRequest, 'tree');
+dump($response);
+
+$response = $client->brands($searchRequest);
+dump($response);
+
+$response = $client->lastModified($searchRequest);
+dump($response);
 ```

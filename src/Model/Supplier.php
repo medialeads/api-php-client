@@ -1,8 +1,12 @@
 <?php
 namespace EuropeanSourcing\Api\Model;
 
-class Supplier
+use EuropeanSourcing\Api\Model\Common\ArrayAccessTrait;
+
+class Supplier implements \ArrayAccess
 {
+    use ArrayAccessTrait;
+
     /**
      * @var integer
      */
@@ -14,7 +18,7 @@ class Supplier
     protected $name;
 
     /**
-     * @var Locale
+     * @var string
      */
     protected $country;
 
@@ -116,8 +120,9 @@ class Supplier
     }
 
     /**
+     * Get Country
      *
-     * @return Locale
+     * @return string
      */
     public function getCountry()
     {
@@ -125,10 +130,12 @@ class Supplier
     }
 
     /**
+     * Set Country
      *
-     * @param Locale $country
+     * @param string $country
+     * @return Supplier
      */
-    public function setCountry(Locale $country)
+    public function setCountry($country)
     {
         $this->country = $country;
         return $this;

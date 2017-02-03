@@ -385,7 +385,7 @@ class Variant implements \ArrayAccess
      * @param array $attributes
      * @return Variant
      */
-    public function setAttributes(array $attributes)
+    public function setAttributes(array $attributes = null)
     {
         $this->attributes = $attributes;
         return $this;

@@ -44,7 +44,7 @@ class CurlCaller implements ApiCallerInterface
             throw new ApiCallerException($this->getStatus($httpcode), $httpcode);
         }
 
-        return json_decode($response, true);
+        return $response;
     }
 
     /**

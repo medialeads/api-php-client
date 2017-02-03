@@ -1,175 +1,149 @@
 <?php
 namespace EuropeanSourcing\Api\ElasticSearch;
 
-class SearchRequest implements \Iterator
+class SearchRequest
 {
     /**
-     * Recherche texte
+     * Text search
+     *
      * @var string
      */
     protected $query;
 
     /**
-     * Recherche simple ou recherche avec cycle fournisseur
-     * @var boolean
-     */
-    protected $isSimple;
-
-    /**
-     * Renvoi les aggregations avec la recherche (ou pas)
+     * Add aggregations (facets) : Categories, brands, attributes
+     * Use it to add filters for your current search
+     *
      * @var boolean
      */
     protected $withAggs;
 
     /**
-     * L'id du pays acceptant le sourcing (supplier.sourcings.idLocation)
-     * @var integer
+     * Language (fr|en|de|it|es|nl|pt)
+     * @var string
      */
-    protected $locationId;
+    protected $language;
 
     /**
-     * La langue dans laquelle rechercher
-     * @var integer
-     */
-    protected $locale;
-
-    /**
-     * L'id du pays d'origine du supplier (supplier.idLocation)
-     * @var integer
-     */
-    protected $countryId;
-
-    /**
-     * Recherche par prix min
+     * Filter by min price
      * @var float
      */
     protected $minPrice;
 
     /**
-     * Recherche par prix max
+     * Filter by max price
      * @var float
      */
     protected $maxPrice;
 
     /**
-     * Recherche par catégorie
+     * Search by category ids
+     *
      * @var array
      */
     protected $categoryIds;
 
     /**
-     * Une catégorie seulement
+     * Search by one category
+     *
      * @var integer
      */
     protected $categoryId;
 
     /**
-     * Rechercher plusieurs fournisseurs
+     * Search by supplier ids
+     *
      * @var array
      */
     protected $supplierIds;
 
     /**
-     * Recherche par marque
+     * Search by one brand id
+     *
      * @var integer
      */
     protected $brandId;
 
     /**
-     * Les Ids des attributs à rechercher
+     * Search by attributes ids
+     *
      * @var array of integer
      */
     protected $attributeIds;
 
     /**
-     * Les ids des attributs primaires
-     * @var array
-     */
-    protected $primaryIds;
-
-    /**
-     * Les ids des attributs nuances
-     * @var array
-     */
-    protected $nuancesIds;
-
-    /**
-     * L'opérateur pour les attributs (and/or)
+     * Operator for attributes (or|and)
+     *
      * @var string
      */
     protected $attributeOperator;
 
     /**
-     * Nouveautés ?
+     * Only new products (< 3 month)
+     *
      * @var boolean
      */
     protected $isNew;
 
     /**
-     * Que les produits avec du stock
+     * Only products with stock
+     *
      * @var boolean
      */
     protected $hasStock;
 
     /**
-     * Exclusion d'Ids
+     * Don't want this ids
+     *
      * @var array
      */
     protected $notIds;
 
     /**
-     * Inclusion d'Ids
+     * Only in this ids
+     *
      * @var array of integer
      */
     protected $ids;
 
     /**
-     * Inclusion d'id de déclinaisons
+     * Only this variant ids
+     *
      * @var array of integer
      */
     protected $variantIds;
 
     /**
-     * Pour l'iterator
-     * @var array
-     */
-    protected $parameters;
-
-    /**
-     * Schema pour les catégories, plain ou tree
+     * For categories aggregation (facet)
+     * (plain|tree)
+     *
      * @var string
      */
     protected $cSchema;
 
     /**
-     * Schema pour les attributes, plain ou tree
+     * For attributes aggregation (facet)
+     * (plain|tree)
+     *
      * @var string
      */
     protected $aSchema;
 
     /**
      * Sort
+     * (random|price|update|score)
+     *
      * @var string
      */
     protected $sort;
 
     /**
      * Sens
+     * (asc|desc)
+     *
      * @var string
      */
     protected $sens;
-
-    /**
-     * Reseller
-     * @var integer
-     */
-    protected $resellerId;
-
-    /**
-     * Le contenu du tableau initial, contenant tous les paramètres
-     * @var array
-     */
-    protected $request;
 
     /**
      * Constructor
@@ -181,8 +155,6 @@ class SearchRequest implements \Iterator
         $this->brandId      = null;
         $this->categoryIds  = null;
         $this->categoryId   = null;
-        $this->locationId   = null;
-        $this->countryId    = null;
         $this->attributeIds = null;
         $this->hasStock     = null;
         $this->isNew        = null;
@@ -190,7 +162,6 @@ class SearchRequest implements \Iterator
         $this->maxPrice     = null;
         $this->notIds       = null;
         $this->ids          = null;
-        $this->isSimple     = true;
         $this->withAggs     = true;
         $this->cSchema       = 'tree';
         $this->aSchema       = 'tree';
@@ -200,55 +171,11 @@ class SearchRequest implements \Iterator
     }
 
     /**
-     * Hydratation 4
-     *
-     * @param array $array
-     */
-    public function handleArray(array $array)
-    {
-        $this->setQuery($this->handleField($array, 'query'));
-        $this->setCategoryId($this->handleField($array, 'category_id'));
-        $this->setBrandId($this->handleField($array, 'brand'));
-        $this->setAttributeIds($this->handleField($array, 'a'));
-        $this->setPrimaryIds($this->handleField($array, 'p'));
-        $this->setNuancesIds($this->handleField($array, 'n'));
-        $this->setSort($this->handleField($array, 'sort'));
-        $this->setSens($this->handleField($array, 'sens'));
-
-        if (!empty($array['simple'])) {
-            $this->setIsSimple(true);
-        }
-
-        if (!empty($array['productId'])) {
-            $this->setIds(array($array['productId']));
-        }
-        if (!empty($array['variantId'])) {
-            $this->setVariantIds(array($array['variantId']));
-        }
-    }
-
-    /**
-     * Retourne un champ d'un tableau, ou $default
-     *
-     * @param array $array
-     * @param string $field
-     * @param mixed $default
-     * @return mixed
-     */
-    public function handleField($array, $field, $default = null)
-    {
-        if (isset($array[$field])) {
-            return $array[$field];
-        }
-        return $default;
-    }
-
-    /**
      * Pas les même noms entre elastic et myeasyweb, ici c'est elastic
      */
     public function getElasticparameters()
     {
-        $this->parameters = array(
+        $parameters = array(
             'q' => $this->getQuery(),
             'b' => $this->getBrandId(),
             's' => $this->getSupplierIds(),
@@ -258,73 +185,32 @@ class SearchRequest implements \Iterator
             'not_ids' => $this->getNotIds(),
             'ids' => $this->getIds(),
             'variantIds' => $this->getVariantIds(),
-            'simple' => (int)$this->isSimple,
-            'withaggs' => (int)$this->withAggs,
-            'language' => $this->getLocale(),
+            'withaggs' => (int)$this->getWithAggs(),
+            'language' => $this->getLanguage(),
             'aschema' => $this->getASchema(),
             'cschema' => $this->getCSchema(),
             'sort' => $this->getSort(),
             'sens' => $this->getSens(),
-            'userId' => $this->getResellerId(),
         );
 
         if (!empty($this->categoryId)) {
-            $this->parameters['c'] = array($this->categoryId);
+            $parameters['c'] = array($this->categoryId);
         } else {
-            $this->parameters['c'] = null;
+            $parameters['c'] = null;
         }
 
         if (!empty($this->attributeIds)) {
-            $this->parameters['a'] = array();
+            $parameters['a'] = array();
 
             foreach ($this->attributeIds as $attributeGroup) {
-                $this->parameters['a'] = array_merge($this->parameters['a'], $attributeGroup);
+                $parameters['a'] = array_merge($parameters['a'], $attributeGroup);
             }
 
-            $this->parameters['aop'] = $this->attributeOperator;
-        }
-
-        /*if (null !== $this->subSearchs) {
-            $this->parameters['subsearchs'] = [];
-            foreach ($this->subSearchs as $subSearch) {
-                $this->parameters['subsearchs'][] = $subSearch->getElasticparameters();
-            }
-        }*/
-
-        return $this->parameters;
-    }
-
-    /**
-     * Pour les listes complètes de categories, brands, etc sans filtres
-     */
-    /*public function getMinimumParameters()
-    {
-        $parameters = array();
-
-        if (null !== $this->subSearchs) {
-            $parameters['subsearchs'] = [];
-            foreach ($this->subSearchs as $subSearch) {
-                $parameters['subsearchs'][] = $subSearch->getElasticparameters();
-            }
+            $parameters['aop'] = $this->attributeOperator;
         }
 
         return $parameters;
-    }*/
-
-    /*public function getElasticParametersWithNoFacets()
-    {
-        $this->parameters = array(
-            'q' => $this->getQuery(),
-            's' => $this->getSupplierIds(),
-            'not_ids' => $this->getNotIds(),
-            'ids' => $this->getIds(),
-            'simple' => (int)$this->isSimple,
-            'withaggs' => (int)$this->withAggs,
-            'language' => $this->getLocale(),
-            'aschema' => $this->getASchema(),
-            'cschema' => $this->getCSchema(),
-        );
-    }*/
+    }
 
     public function getQuery()
     {
@@ -336,28 +222,6 @@ class SearchRequest implements \Iterator
         if (!empty($query)) {
             $this->query = $query;
         }
-        return $this;
-    }
-
-    public function getLocationId()
-    {
-        return $this->locationId;
-    }
-
-    public function setLocationId($locationId)
-    {
-        $this->locationId = $locationId;
-        return $this;
-    }
-
-    public function getCountryId()
-    {
-        return $this->countryId;
-    }
-
-    public function setCountryId($countryId)
-    {
-        $this->countryId = $countryId;
         return $this;
     }
 
@@ -505,62 +369,6 @@ class SearchRequest implements \Iterator
         return $this;
     }
 
-    public function getIsSimple()
-    {
-        return $this->isSimple;
-    }
-
-    public function setIsSimple($isSimple)
-    {
-        $this->isSimple = $isSimple;
-        return $this;
-    }
-
-    public function current()
-    {
-        if (empty($this->parameters)) {
-            $this->getAllparameters();
-        }
-
-        return current($this->parameters);
-    }
-
-    public function key()
-    {
-        if (empty($this->parameters)) {
-            $this->getAllparameters();
-        }
-
-        return key($this->parameters);
-    }
-
-    public function next()
-    {
-        if (empty($this->parameters)) {
-            $this->getAllparameters();
-        }
-
-        return next($this->parameters);
-    }
-
-    public function rewind()
-    {
-        if (empty($this->parameters)) {
-            $this->getAllparameters();
-        }
-
-        return reset($this->parameters);
-    }
-
-    public function valid()
-    {
-        if (empty($this->parameters)) {
-            $this->getAllparameters();
-        }
-
-        return key($this->parameters) !== null;
-    }
-
     public function getWithAggs()
     {
         return $this->withAggs;
@@ -572,14 +380,14 @@ class SearchRequest implements \Iterator
         return $this;
     }
 
-    public function getLocale()
+    public function getLanguage()
     {
-        return $this->locale;
+        return $this->language;
     }
 
-    public function setLocale($locale)
+    public function setLanguage($language)
     {
-        $this->locale = $locale;
+        $this->language = $language;
         return $this;
     }
 
@@ -616,28 +424,6 @@ class SearchRequest implements \Iterator
         return $this;
     }
 
-    public function getPrimaryIds()
-    {
-        return $this->primaryIds;
-    }
-
-    public function setPrimaryIds(array $primaryIds = null)
-    {
-        $this->primaryIds = $primaryIds;
-        return $this;
-    }
-
-    public function getNuancesIds()
-    {
-        return $this->nuancesIds;
-    }
-
-    public function setNuancesIds($nuancesIds)
-    {
-        $this->nuancesIds = $nuancesIds;
-        return $this;
-    }
-
     public function getCategoryId()
     {
         return $this->categoryId;
@@ -668,34 +454,6 @@ class SearchRequest implements \Iterator
     public function setSens($sens)
     {
         $this->sens = $sens;
-        return $this;
-    }
-
-    public function getResellerId()
-    {
-        return $this->resellerId;
-    }
-
-    public function setResellerId($resellerId)
-    {
-        $this->resellerId = $resellerId;
-        return $this;
-    }
-
-    /**
-     * @return  array
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
-     * @param array $request
-     */
-    public function setRequest(array $request)
-    {
-        $this->request = $request;
         return $this;
     }
 

@@ -1,8 +1,12 @@
 <?php
 namespace EuropeanSourcing\Api\Model;
 
-class Category
+use EuropeanSourcing\Api\Model\Common\ArrayAccessTrait;
+
+class Category implements \ArrayAccess
 {
+    use ArrayAccessTrait;
+
     /**
      * Id
      * @var integer
@@ -89,7 +93,7 @@ class Category
         return $this->parent;
     }
 
-    public function setParent(Category $parent)
+    public function setParent(Category $parent = null)
     {
         $this->parent = $parent;
         return $this;
@@ -119,7 +123,7 @@ class Category
         return $this->children;
     }
 
-    public function setChildren(array $children)
+    public function setChildren(array $children = null)
     {
         $this->children = $children;
         return $this;

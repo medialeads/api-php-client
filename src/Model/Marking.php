@@ -1,8 +1,12 @@
 <?php
 namespace EuropeanSourcing\Api\Model;
 
-class Marking
+use EuropeanSourcing\Api\Model\Common\ArrayAccessTrait;
+
+class Marking implements \ArrayAccess
 {
+    use ArrayAccessTrait;
+
     /**
      * @var integer
      */

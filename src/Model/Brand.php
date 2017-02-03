@@ -1,8 +1,12 @@
 <?php
 namespace EuropeanSourcing\Api\Model;
 
-class Brand
+use EuropeanSourcing\Api\Model\Common\ArrayAccessTrait;
+
+class Brand implements \ArrayAccess
 {
+    use ArrayAccessTrait;
+
     /**
      * Id de la marque
      *
