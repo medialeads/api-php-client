@@ -1,0 +1,28 @@
+{
+	"name": "europeansourcing/api-php-client",
+	"description": "Client PHP pour l'API EuropeanSourcing",
+	"authors": [
+		{
+			"name": "Wamania",
+			"homepage": "http://europeansourcing.com"
+		}
+	],
+	"require": {
+		"php": ">=5.3.0",
+		"symfony/property-access": "^3.2"
+	},
+	"require-dev":{
+		"phpunit/phpunit": "^4.8",
+		"symfony/var-dumper": "^3.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"EuropeanSourcing\\Api\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"EuropeanSourcing\\Api\\Tests\\": "test/"
+		}
+	}
+}
