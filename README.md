@@ -94,6 +94,9 @@ http://ws.europeansourcing.com/api/brands?q=pen&language=en&sort=price&s[]=1774&
 
 // date of last modification
 http://ws.europeansourcing.com/api/last-modified?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
+
+// images (you should use http cache)
+http://www.europeansourcing.com/products/{id_image}-400x400.jpg
 ```
 
 Here is a list of the raw parameters : 
