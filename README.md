@@ -79,6 +79,23 @@ Low level API
 -----
 
 If you don't want to use SearchRequest/Client, Models, etc (bad idea, you should), you can directly call the URL.
+
+You can use GET or POST
+
+``` php
+// search products + aggregations (facets)
+http://ws.europeansourcing.com/api?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
+
+// categories
+http://ws.europeansourcing.com/api/categories?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
+
+// brands
+http://ws.europeansourcing.com/api/brands?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
+
+// date of last modification
+http://ws.europeansourcing.com/api/last-modified?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
+```
+
 Here is a list of the raw parameters : 
 
 ``` php
@@ -101,19 +118,5 @@ sort => (string random|price|update|score) sort
 sens => (string asc|desc) sens
 aop => (string or|and) attributes operator
 ```
-You can pass it by GET or POST
 
-``` php
-// search products + aggregations (facets)
-http://ws.europeansourcing.com/api?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
-
-// categories
-http://ws.europeansourcing.com/api/categories?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
-
-// brands
-http://ws.europeansourcing.com/api/brands?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
-
-// date of last modification
-http://ws.europeansourcing.com/api/last-modified?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
-```
 Consider using an extension for chrome/firefox to inspect the Json (Jsonview for example)
