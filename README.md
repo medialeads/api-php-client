@@ -103,7 +103,17 @@ aop => (string or|and) attributes operator
 ```
 You can pass it by GET or POST
 
-``` http
+``` php
+// search products + aggregations (facets)
 http://ws.europeansourcing.com/api?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
+
+// categories
+http://ws.europeansourcing.com/api/categories?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
+
+// brands
+http://ws.europeansourcing.com/api/brands?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
+
+// date of last modification
+http://ws.europeansourcing.com/api/last-modified?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
 ```
 Consider using an extension for chrome/firefox to inspect the Json (Jsonview for example)
