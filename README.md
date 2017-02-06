@@ -105,5 +105,5 @@ You can pass it by GET or POST
 
 ``` http
 http://ws.europeansourcing.com/api?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
-
+```
 Consider using an extension for chrome/firefox to inspect the Json (Jsonview for example)
