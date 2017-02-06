@@ -10,16 +10,11 @@ Php api client to search in the Europeansourcing products database
 Installation
 ------------
 
-Require [`medialeads/api-php-client`](https://packagist.org/packages/medialeads/api-php-client)
+Require [`europeansourcing/api-php-client`](https://packagist.org/packages/europeansourcing/api-php-client)
 into your `composer.json` file:
 
-
 ``` json
-{
-    "require": {
-        "medialeads/api-php-client": "dev-master"
-    }
-}
+composer require europeansourcing/api-php-client
 ```
 
 Usage
