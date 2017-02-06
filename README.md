@@ -22,7 +22,6 @@ Usage
 
 If you install in /api-php-client of your localhost, you can call [http://localhost/api-php-client/example](http://localhost/api-php-client/example) to see all examples.
 
-If you have an EuropeanSourcing token, put it in the example/config.php
 Make sure you're in localhost in order to have the "dump" function available.
 
 ``` php
@@ -33,7 +32,9 @@ use EuropeanSourcing\Api\ApiCaller\CurlCaller;
 use EuropeanSourcing\Api\Transformer\ArrayTransformer;
 
 require '../vendor/autoload.php';
-require './config.php';
+
+// Token given by EuropeanSourcing
+$token = 'O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4';
 
 // api caller
 // perform the call to API
