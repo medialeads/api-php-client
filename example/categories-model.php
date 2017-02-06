@@ -1,9 +1,8 @@
 <?php
-use EuropeanSourcing\Api\ElasticSearch\Client;
-use EuropeanSourcing\Api\ElasticSearch\SearchRequest;
+use EuropeanSourcing\Api\Client;
+use EuropeanSourcing\Api\SearchRequest;
 use EuropeanSourcing\Api\ApiCaller\CurlCaller;
-use EuropeanSourcing\Api\ModelBuilder;
-use EuropeanSourcing\Api\Transformer\JsonTransformer;
+use EuropeanSourcing\Api\Transformer\ModelTransformer;
 
 require '../vendor/autoload.php';
 require './config.php';
@@ -11,13 +10,9 @@ require './config.php';
 // api caller
 $apiCaller = new CurlCaller($token);
 
-/**
- * Data transformer
- * There are 2 transformer,
- *  - SimpleTransformer do nothing, use it to get original Json response
- *  - JsonTransformer decode json response in php array
- */
-$transformer = new JsonTransformer();
+// Data transformer
+$modelNamespace = '\\EuropeanSourcing\\Api\\Model\\';
+$transformer = new ModelTransformer($modelNamespace);
 
 // api client
 // perform the call to API
@@ -32,19 +27,3 @@ $searchRequest->setLanguage('fr');
 // Do a search, we get back here a php array
 $response = $client->categories($searchRequest, 'tree');
 dump($response);
-
-// transform basic PHP array in usefull Models
-$models = new ModelBuilder();
-
-/**
- * if you copy/paste the Model folder in your project, you can
- * make your own Model, so give the namespace of your own model
- */
-$modelNameSpace = '\\EuropeanSourcing\\Api\\Model\\Category';
-
-$categories = array();
-foreach ($response as $category) {
-    $categories[] = $models->build($category, $modelNameSpace);
-}
-
-dump($categories);

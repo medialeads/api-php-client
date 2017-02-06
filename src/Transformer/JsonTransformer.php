@@ -12,7 +12,7 @@ class JsonTransformer implements TransformerInterface
      */
     public function search($results)
     {
-        return json_decode($results, true);
+        return $results;
     }
 
     /**
@@ -23,7 +23,7 @@ class JsonTransformer implements TransformerInterface
      */
     public function categories($categories)
     {
-        return json_decode($categories, true);
+        return $categories;
     }
 
     /**
@@ -34,7 +34,7 @@ class JsonTransformer implements TransformerInterface
      */
     public function brands($brands)
     {
-        return json_decode($brands, true);
+        return $brands;
     }
 
     /**
@@ -44,6 +44,6 @@ class JsonTransformer implements TransformerInterface
      */
     public function lastModified($lastModified)
     {
-        return json_decode($lastModified);
+        return $lastModified;
     }
 }

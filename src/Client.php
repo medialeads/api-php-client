@@ -1,19 +1,19 @@
 <?php
-namespace EuropeanSourcing\Api\ElasticSearch;
+namespace EuropeanSourcing\Api;
 
-use EuropeanSourcing\Api\ElasticSearch\SearchRequest;
+use EuropeanSourcing\Api\SearchRequest;
 use EuropeanSourcing\Api\ApiCaller\ApiCallerInterface;
 use EuropeanSourcing\Api\Transformer\TransformerInterface;
 
 class Client
 {
     /**
-     * @var LoggingApiCaller
+     * @var ApiCallerInterface
      */
     protected $apiCaller;
 
     /**
-     * @var Transformer
+     * @var TransformerInterface
      */
     protected $transformer;
 
@@ -25,9 +25,8 @@ class Client
     /**
      * Constructor
      *
-     * @param LoggingApiCaller $apiCaller
-     * @param SearchRequestProvider $searchRequestProvider
-     * @param Transformer $transformer
+     * @param ApiCallerInterface $apiCaller
+     * @param TransformerInterface $transformer
      * @param string $elasticUrl
      */
     public function __construct(ApiCallerInterface $apiCaller, TransformerInterface $transformer, $elasticUrl)
@@ -40,8 +39,10 @@ class Client
     /**
      * Search
      *
+     * @param SearchRequest $searchRequest
      * @param integer $offset
      * @param integer $limit
+     * @return mixed
      */
     public function search(SearchRequest $searchRequest, $offset, $limit)
     {
@@ -56,15 +57,11 @@ class Client
         return $this->transformer->search($results);
     }
 
-    public function get($id)
-    {
-
-    }
-
     /**
      * Get lastModified
      *
-     * @param SearchRequest $model
+     * @param SearchRequest $searchRequest
+     * @return mixed
      */
     public function lastModified(SearchRequest $searchRequest)
     {
@@ -78,7 +75,9 @@ class Client
     /**
      * Get all categories
      *
+     * @param SearchRequest $searchRequest
      * @param string $schema
+     * @return mixed
      */
     public function categories(SearchRequest $searchRequest, $schema = 'plain')
     {
@@ -94,6 +93,9 @@ class Client
 
     /**
      * Get all brands
+     *
+     * @param SearchRequest $searchRequest
+     * @return mixed
      */
     public function brands(SearchRequest $searchRequest)
     {

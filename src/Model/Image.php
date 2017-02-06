@@ -28,16 +28,7 @@ class Image implements \ArrayAccess
     protected $position;
 
     /**
-     * Constructor
-     *
-     * @param array $image
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
+     * Set id
      *
      * @param integer $id
      * @return Image
@@ -49,6 +40,8 @@ class Image implements \ArrayAccess
     }
 
     /**
+     * Get id
+     *
      * @return integer
      */
     public function getId()
@@ -56,22 +49,53 @@ class Image implements \ArrayAccess
         return $this->id;
     }
 
+    /**
+     * Get full path
+     * @return string
+     */
+    public function getPath()
+    {
+        return 'http://europeansourcing.com/products/'.$this->id.'-400x400.jpg';
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Image
+     */
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
 
+    /**
+     * Get position
+     *
+     * @return number
+     */
     public function getPosition()
     {
         return $this->position;
     }
 
+    /**
+     * Set position
+     *
+     * @param string $position
+     * @return Image
+     */
     public function setPosition($position)
     {
         $this->position = $position;

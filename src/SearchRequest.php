@@ -1,5 +1,5 @@
 <?php
-namespace EuropeanSourcing\Api\ElasticSearch;
+namespace EuropeanSourcing\Api;
 
 class SearchRequest
 {

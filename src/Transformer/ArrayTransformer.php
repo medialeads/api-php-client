@@ -2,7 +2,7 @@
 namespace EuropeanSourcing\Api\Transformer;
 
 
-class SimpleTransformer implements TransformerInterface
+class ArrayTransformer implements TransformerInterface
 {
     /**
      * Met en forme la recherche principale
@@ -12,7 +12,7 @@ class SimpleTransformer implements TransformerInterface
      */
     public function search($results)
     {
-        return $results;
+        return json_decode($results, true);
     }
 
     /**
@@ -23,7 +23,7 @@ class SimpleTransformer implements TransformerInterface
      */
     public function categories($categories)
     {
-        return $categories;
+        return json_decode($categories, true);
     }
 
     /**
@@ -34,7 +34,7 @@ class SimpleTransformer implements TransformerInterface
      */
     public function brands($brands)
     {
-        return $brands;
+        return json_decode($brands, true);
     }
 
     /**
@@ -44,6 +44,6 @@ class SimpleTransformer implements TransformerInterface
      */
     public function lastModified($lastModified)
     {
-        return $lastModified;
+        return json_decode($lastModified, true);
     }
 }

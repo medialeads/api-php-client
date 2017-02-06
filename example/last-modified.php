@@ -1,6 +1,6 @@
 <?php
-use EuropeanSourcing\Api\ElasticSearch\Client;
-use EuropeanSourcing\Api\ElasticSearch\SearchRequest;
+use EuropeanSourcing\Api\Client;
+use EuropeanSourcing\Api\SearchRequest;
 use EuropeanSourcing\Api\ApiCaller\CurlCaller;
 use EuropeanSourcing\Api\Transformer\JsonTransformer;
 
@@ -11,12 +11,7 @@ require './config.php';
 // perform the call to API
 $apiCaller = new CurlCaller($token);
 
-/*
- * Data transformer
- * There are 2 transformer,
- *  - SimpleTransformer do nothing, use it to get original Json response
- *  - JsonTransformer decode json response in php array
- */
+// Data transformer
 $transformer = new JsonTransformer();
 
 // api client

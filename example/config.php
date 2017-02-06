@@ -1,4 +1,4 @@
 <?php
 
-$url = 'http://search.europeansourcing.local/app_dev.php/api';
-$token = 'BPDF5FVQ4GXXBW6FAXWZF7RI5ID5HGJ1';
+$url = 'http://ws.europeansourcing.com/api';
+$token = 'O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4';

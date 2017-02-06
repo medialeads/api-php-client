@@ -1,8 +1,8 @@
 <?php
-use EuropeanSourcing\Api\ElasticSearch\Client;
-use EuropeanSourcing\Api\ElasticSearch\SearchRequest;
+use EuropeanSourcing\Api\Client;
+use EuropeanSourcing\Api\SearchRequest;
 use EuropeanSourcing\Api\ApiCaller\CurlCaller;
-use EuropeanSourcing\Api\Transformer\SimpleTransformer;
+use EuropeanSourcing\Api\Transformer\JsonTransformer;
 
 require '../vendor/autoload.php';
 require './config.php';
@@ -11,13 +11,8 @@ require './config.php';
 // perform the call to API
 $apiCaller = new CurlCaller($token);
 
-/*
- * Data transformer
- * There are 2 transformer,
- *  - SimpleTransformer do nothing, use it to get original Json response
- *  - JsonTransformer decode json response in php array
- */
-$transformer = new SimpleTransformer();
+// data transformer
+$transformer = new JsonTransformer();
 
 // api client
 // organise the call to API, the transformation and the response
@@ -30,7 +25,8 @@ $searchRequest->setQuery('stylo');
 $searchRequest->setLanguage('fr');
 
 // Do a search
-$response = $client->search($searchRequest, 0, 1);
+$response = $client->search($searchRequest, 0, 10);
 
-// raw json rsponse
+// raw json response
+header('content-type: application/json');
 echo $response;

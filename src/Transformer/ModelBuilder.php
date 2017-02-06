@@ -1,5 +1,5 @@
 <?php
-namespace EuropeanSourcing\Api;
+namespace EuropeanSourcing\Api\Transformer;
 
 class ModelBuilder
 {
@@ -17,6 +17,10 @@ class ModelBuilder
 
                 if ( ($key === 'children') || ($key === 'parent') ) {
                     $className = $modelName;
+                }
+                // exception
+                if ( ($key === 'children') && (strpos($modelName, 'AttributeGroup') !== false) ) {
+                    $className = $namespace . '\\Attribute';
                 }
 
                 if (null !== $className) {

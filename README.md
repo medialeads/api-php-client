@@ -25,43 +25,85 @@ into your `composer.json` file:
 Usage
 -----
 
-In your code:
+If you install in /api-php-client of your localhost, you can call [http://localhost/api-php-client/example](http://localhost/api-php-client/example) to see all examples.
+
+If you have an EuropeanSourcing token, put it in the example/config.php
+Make sure you're in localhost in order to have the "dump" function available.
 
 ``` php
+<?php
 use EuropeanSourcing\Api\ElasticSearch\Client;
-use EuropeanSourcing\Api\ElasticSearch\JsonTransformer;
 use EuropeanSourcing\Api\ElasticSearch\SearchRequest;
 use EuropeanSourcing\Api\ApiCaller\CurlCaller;
+use EuropeanSourcing\Api\Transformer\ArrayTransformer;
 
 require '../vendor/autoload.php';
-
-// Api url
-$url = 'http://search4.europeansourcing.com/api';
-$token = 'xxxxxxxxxxxxxxxx';
+require './config.php';
 
 // api caller
+// perform the call to API
 $apiCaller = new CurlCaller($token);
 
 // data transformer
-$transformer = new JsonTransformer();
+$transformer = new ArrayTransformer();
 
 // api client
+// organise the call to API, the transformation and the response
 $client = new Client($apiCaller, $transformer, $url);
 
 // search request object
+// Handle all parameters of your search
 $searchRequest = new SearchRequest();
 $searchRequest->setQuery('stylo');
+$searchRequest->setLanguage('fr');
 
 // Do a search
-$response = $client->search($searchRequest, 1, 30);
-dump($response);
+$response = $client->search($searchRequest, 0, 1);
 
-$response = $client->categories($searchRequest, 'tree');
-dump($response);
-
-$response = $client->brands($searchRequest);
-dump($response);
-
-$response = $client->lastModified($searchRequest);
+// array response
 dump($response);
 ```
+
+This is one of the simplier example. It does a search based on the content of $searchRequest and return a $results based on the transformer.
+As we pass it through our "ArrayTransformer", we get back an array of $results.
+You can pass your own Transformer to the $client
+
+One of the transformer is the ModelTransformer. Instead of having json or array, it build a whole structure of instances.
+You can copy/paste the model folder to your projects (if you want modifiy it) and then just change the namespace by yours :
+
+``` php
+// our transformer (build model from results)
+$modelNamespace = '\\EuropeanSourcing\\Api\\Model\\';
+$transformer = new ModelTransformer($modelNamespace);
+```
+
+To have all input parameters for the search, you can watch the SearchRequest file, all parameters are documented.
+
+If you don't want to use searchRequest (bad idea, you should), here is a list of the raw parameters : 
+
+``` php
+q => (string) text query
+b => (integer) one brand id
+s => (array) supplier ids
+c => (array) category ids
+a => (array) attribute ids
+prix_min => (float) min price
+prix_max => (float) max price
+withstockonly => (integer 0|1) has stock
+not_ids => (array) ids exclusion
+ids => (array) ids inclusion
+variantIds => (array) variant ids inclusion
+withaggs => (integer 0|1) add aggregations (facets)
+language => (string fr|en|de|it|es|nl|pt) language
+aschema => (string plain|tree) schema for attributes
+cschema => (string plain|tree) schema for categories
+sort => (string random|price|update|score) sort
+sens => (string asc|desc) sens
+aop => (string or|and) attributes operator
+```
+You can pass it by GET or POST
+
+``` http
+http://ws.europeansourcing.com/api?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
+
+Consider using an extension for chrome/firefox to inspect the Json (Jsonview for example)

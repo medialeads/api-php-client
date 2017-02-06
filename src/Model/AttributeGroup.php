@@ -68,15 +68,15 @@ class AttributeGroup implements \ArrayAccess
     public function setChildren(array $children)
     {
         $this->children = $children;
-        foreach ($this->cildren as $child) {
-            $child->setGroup($this);
+        foreach ($this->children as $child) {
+            $child->setAttributeGroup($this);
         }
         return $this;
     }
 
     public function addChildren(Attribute $attribute)
     {
-        $attribute->setGroup($this);
+        $attribute->setAttributeGroup($this);
         $this->children[] = $attribute;
         return $this;
     }
