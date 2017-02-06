@@ -74,7 +74,11 @@ $transformer = new ModelTransformer($modelNamespace);
 
 To have all input parameters for the search, you can watch the SearchRequest file, all parameters are documented.
 
-If you don't want to use searchRequest (bad idea, you should), here is a list of the raw parameters : 
+Low level API
+-----
+
+If you don't want to use SearchRequest/Client, Models, etc (bad idea, you should), you can directly call the URL.
+Here is a list of the raw parameters : 
 
 ``` php
 q => (string) text query
