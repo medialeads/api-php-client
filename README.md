@@ -1,6 +1,6 @@
 # api-php-client
 
-Php api client to search in the Europeansourcing products database
+PHP api client to search in the Europeansourcing products database
 
 * [Languages](#languages)
 * [Installation](#installation)
@@ -52,7 +52,7 @@ $searchRequest = new SearchRequest();
 $searchRequest->setQuery('stylo');
 $searchRequest->setLanguage('fr');
 
-// Do a search
+// Do a search (see Client.php for the list of function)
 $response = $client->search($searchRequest, 0, 1);
 
 // array response
