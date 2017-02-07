@@ -1,6 +1,6 @@
 # api-php-client
 
-Php api client to search in the Europeansourcing products database
+PHP api client to search in the Europeansourcing products database
 
 * [Languages](#languages)
 * [Installation](#installation)
@@ -10,16 +10,11 @@ Php api client to search in the Europeansourcing products database
 Installation
 ------------
 
-Require [`medialeads/api-php-client`](https://packagist.org/packages/medialeads/api-php-client)
+Require [`europeansourcing/api-php-client`](https://packagist.org/packages/europeansourcing/api-php-client)
 into your `composer.json` file:
 
-
 ``` json
-{
-    "require": {
-        "medialeads/api-php-client": "dev-master"
-    }
-}
+composer require europeansourcing/api-php-client
 ```
 
 Usage
@@ -27,7 +22,6 @@ Usage
 
 If you install in /api-php-client of your localhost, you can call [http://localhost/api-php-client/example](http://localhost/api-php-client/example) to see all examples.
 
-If you have an EuropeanSourcing token, put it in the example/config.php
 Make sure you're in localhost in order to have the "dump" function available.
 
 ``` php
@@ -38,7 +32,9 @@ use EuropeanSourcing\Api\ApiCaller\CurlCaller;
 use EuropeanSourcing\Api\Transformer\ArrayTransformer;
 
 require '../vendor/autoload.php';
-require './config.php';
+
+// Token given by EuropeanSourcing
+$token = 'O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4';
 
 // api caller
 // perform the call to API
@@ -57,7 +53,7 @@ $searchRequest = new SearchRequest();
 $searchRequest->setQuery('stylo');
 $searchRequest->setLanguage('fr');
 
-// Do a search
+// Do a search (see Client.php for the list of function)
 $response = $client->search($searchRequest, 0, 1);
 
 // array response
@@ -79,7 +75,31 @@ $transformer = new ModelTransformer($modelNamespace);
 
 To have all input parameters for the search, you can watch the SearchRequest file, all parameters are documented.
 
-If you don't want to use searchRequest (bad idea, you should), here is a list of the raw parameters : 
+Low level API
+-----
+
+If you don't want to use SearchRequest/Client, Models, etc (bad idea, you should), you can directly call the URL.
+
+You can use GET or POST
+
+``` php
+// search products + aggregations (facets)
+http://ws.europeansourcing.com/api?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
+
+// categories
+http://ws.europeansourcing.com/api/categories?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
+
+// brands
+http://ws.europeansourcing.com/api/brands?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
+
+// date of last modification
+http://ws.europeansourcing.com/api/last-modified?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
+
+// images (you should use http cache)
+http://www.europeansourcing.com/products/{id_image}-400x400.jpg
+```
+
+Here is a list of the raw parameters : 
 
 ``` php
 q => (string) text query
@@ -101,19 +121,5 @@ sort => (string random|price|update|score) sort
 sens => (string asc|desc) sens
 aop => (string or|and) attributes operator
 ```
-You can pass it by GET or POST
 
-``` php
-// search products + aggregations (facets)
-http://ws.europeansourcing.com/api?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
-
-// categories
-http://ws.europeansourcing.com/api/categories?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
-
-// brands
-http://ws.europeansourcing.com/api/brands?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
-
-// date of last modification
-http://ws.europeansourcing.com/api/last-modified?q=pen&language=en&sort=price&s[]=1774&token=O5L2T01JWVR5GQ05KIZHJ63DB3TSTAY4
-```
 Consider using an extension for chrome/firefox to inspect the Json (Jsonview for example)
