@@ -93,7 +93,7 @@ class Category implements \ArrayAccess
         return $this->parent;
     }
 
-    public function setParent(Category $parent = null)
+    public function setParent($parent = null)
     {
         $this->parent = $parent;
         return $this;
