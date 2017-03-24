@@ -104,15 +104,15 @@ Here is a list of the raw parameters :
 ``` php
 q => (string) text query
 b => (integer) one brand id
-s => (array) supplier ids
-c => (array) category ids
-a => (array) attribute ids
+s[] => (array) supplier ids
+c[] => (array) category ids
+a[] => (array) attribute ids
 prix_min => (float) min price
 prix_max => (float) max price
 withstockonly => (integer 0|1) has stock
-not_ids => (array) ids exclusion
-ids => (array) ids inclusion
-variantIds => (array) variant ids inclusion
+not_ids[] => (array) ids exclusion
+ids[] => (array) ids inclusion
+variantIds[] => (array) variant ids inclusion
 withaggs => (integer 0|1) add aggregations (facets)
 language => (string fr|en|de|it|es|nl|pt) language
 aschema => (string plain|tree) schema for attributes
