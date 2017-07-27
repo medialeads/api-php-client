@@ -120,6 +120,7 @@ cschema => (string plain|tree) schema for categories
 sort => (string random|price|update|score) sort
 sens => (string asc|desc) sens
 aop => (string or|and) attributes operator
+cop => (string or|and) categories operator
 ```
 
 Consider using an extension for chrome/firefox to inspect the Json (Jsonview for example)
