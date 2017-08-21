@@ -102,6 +102,8 @@ http://www.europeansourcing.com/products/{id_image}-400x400.jpg
 Here is a list of the raw parameters : 
 
 ``` php
+page => (int) page number
+limit => (int) number of products per page
 q => (string) text query
 b => (integer) one brand id
 s[] => (array) supplier ids
