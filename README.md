@@ -123,6 +123,7 @@ sort => (string random|price|update|score) sort
 sens => (string asc|desc) sens
 aop => (string or|and) attributes operator
 cop => (string or|and) categories operator
+last_updated => (string) today|yesterday|last_24h
 ```
 
 Consider using an extension for chrome/firefox to inspect the Json (Jsonview for example)
